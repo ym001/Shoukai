@@ -5,12 +5,13 @@
 }
 
 html {
+	font-size: 200%;
 	margin: 0;
 	padding: 0;
 }
 
 body {
-	font-size: 30px;
+	font-size: .8em;
 	color: blue;
 	margin: 0;
 	padding: 0;
@@ -73,9 +74,9 @@ a:visited /* Quand le visiteur a déjà vu la page concernée */
 
 li {
 	list-style: square;
+	font-style: italic;
 	padding: 10px 0;
-	color: gray;
-
+	color: darkgray;
 }
 
 button {
@@ -133,19 +134,21 @@ button {
 	margin: 0%;
 	width: 100%;
 	height: 80%;
+	z-index: 0;
 }
 
-.pied {
+.pieds {
 	position: absolute;
 	display: block;
-	top:700px;
+	top:80%;
+	height: 20%;
 	text-align:right;
+	font-size: 100%;
 	font-weight: normal;
 	font-family: Arial;
 	color:gray;
 	margin: 0;
 	padding: 0;
-	font-size: 100%;
 }
 .deroule{
 	display: block;
@@ -166,7 +169,7 @@ button {
 	top:50%;
 	margin-left: auto;
 	margin-right: auto;
-	font-size: 200%;
+	font-size: 300%;
 	vertical-align: middle;
 	text-align: center;
 	transform: translate(-50%, -50%);
@@ -192,7 +195,7 @@ span {
 	display:inline-block;
 	line-height:40px;
 	height:41px;
-	font-size:20px;
+	font-size: .8em;
 	font-weight:bold;
 	padding:0 2em 0 0.5em;
 	position:relative;
@@ -224,26 +227,26 @@ span:last-of-type:after {
 }
 
 .note {
-	display:none;
 	position:absolute;
-	background-color: red;
+	background-color: gray;
+	color:white;
 	left: 0;
-	top: 500px;
+	top: 80%;
 	width: 100%;
 	height: 20%;
-	opacity: 0.75;
+	opacity: 0.5;
 
 }
 
-.sommaire {
-	display:none;
+.Sommaire {
 	position:absolute;
-	background-color: red;
-	left: 0;
-	top: 500px;
-	width: 100%;
-	height: 20%;
+	background-color: gray;
+	left: 0px;
+	top: 20%;
+	width: 30%;
+	height: 80%;
 	opacity: 0.75;
+	z-index: 1;
 }
 
 .noteInvisible {
@@ -326,5 +329,4 @@ span:last-of-type:after {
 	font: Oldtown, fantasy;
 	color: DarkCyan;
 	font-size: 150%;
-
 }

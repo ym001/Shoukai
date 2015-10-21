@@ -3,29 +3,59 @@ var rainbow=new Array('violet','indigo','blue','green','yellow','orange','red');
 var step=0
 var nombreDeSlide
 document.onkeypress = clavier
+document.onclick = simpleClick
 var numSlide=0
 var sens=1
+function simpleClick(event){
+	var theTarget = event.target
+	if(event.target.id=='liSommaire'){
+		document.getElementById('diapo'+numSlide).style.display='none';
+		numSlide=parseInt(event.target.getAttribute('data-numSlide'))
+		document.getElementById('diapo'+numSlide).style.display='block';
+		}
+}
 function clavier (event){
 	var codeTouche = ('charCode' in event) ? event.charCode : event.keyCode;
+	//afficher le code d'une touche'
 	//alert ("Le code du la touche est : " + codeTouche);
+	
+	//fléche de droite
 	if (event.keyCode == 39) {sens=1;}
+	
+	//fléche de gauche
 	if (event.keyCode == 37) {sens=-1;}
-	if (codeTouche== 110) {
-		if(document.getElementById('n'+numSlide).style.display=='none'){document.getElementById('n'+numSlide).style.display='block';}
-		else{document.getElementById('n'+numSlide).style.display='none';}
+	
+	//touche s pour sommaire
+	if (codeTouche== 115) {
+		var id='sommaire'
+		displayById(id)
 		}
-
+		
+	//touche n pour note
+	if (codeTouche== 110) {
+		var id='note'+numSlide
+		displayById(id)
+		}
+	
+	//barre espace pour changer de diapo
 	if (codeTouche== 32) {
-		document.getElementById('d'+numSlide).style.display='none';
+		document.getElementById('diapo'+numSlide).style.display='none';
 		numSlide=numSlide+sens;
 		if(numSlide==nombreDeSlide){numSlide=0;}
 		if(numSlide==-1){numSlide=nombreDeSlide-1;}
-		document.getElementById('d'+numSlide).style.display='block';
+		document.getElementById('diapo'+numSlide).style.display='block';
     }
-}
-function afficheDiapo(){
 	
+}
+
+//affiche le bloc si caché, cache le bloc si affiché.
+function displayById(id){
+	if(document.getElementById(id).style.display=='none'){document.getElementById(id).style.display='block';}
+	else{document.getElementById(id).style.display='none';}
 	}
+
+//function afficheDiapo(){}
+
 function deroule(id1,id2) {
 	derouleDiv(id1);
 	derouleDiv(id2);
@@ -78,7 +108,7 @@ function listing(code){
 		str=str.substring(0,re.lastIndex)+nombre+str.substring(re.lastIndex+1,str.length)
 		}*/
 	for(var i= 0;i<10;i++){
-		re = new RegExp(i,"gi");
+		var re = new RegExp(i,"gi");
 		str=str.replace(re,'<div class="listingVert">'+i+'</div>')
 		}
 	
@@ -109,51 +139,76 @@ function listing(code){
 	str='<div class="listing">'+str+'</div>'
 	return str
 	}
+function onClickSommaire(i){
+	console.log('onClickSommaire')
+	displayById('diapo'+i)
+}
+//construction du sommaire
+function constructionSommaire(){
+	var classe='Sommaire'
+	var id='sommaire'
+	var contenu='<ul>'
+	var divSommaire=document.createElement('div')
+	var ul=document.createElement('ul')
+	divSommaire.setAttribute('class',classe)
+	divSommaire.setAttribute('id',id)
+	divSommaire.style.display="none"
+	for(var i=0;i< nombreDeSlide;i++){
+		if((tabDesDiapos[i].chapitre!=undefined)&&(tabDesDiapos[i].chapitre!=tabDesDiapos[i-1].chapitre)){
+			var li=document.createElement('li')
+			//var a=document.createElement('a')
+			var texte =document.createTextNode(tabDesDiapos[i].chapitre)
+			li.setAttribute('id','liSommaire')
+			li.setAttribute('data-numSlide',i)
+			li.style.color="white"
+			li.appendChild(texte)
+			//li.appendChild(a)
+			ul.appendChild(li)
+			}
+	}
+	divSommaire.appendChild(ul)
+	document.body.appendChild(divSommaire)
+}
+
+//construit une brique de base d'une diapo'
+function constructionDiv(classe,id,contenu,diapo){
+	var div=document.createElement('div')
+	div.setAttribute('class',classe)
+	div.setAttribute('id',id)
+	div.innerHTML =contenu
+	if(classe=='note'){div.style.display="none"}
+	diapo.appendChild(div)
+}
+
+function constructionDiapo(numDiapo,diapo){
+	var tabDivDiapo=new Array('titre','chapitre','corps','pieds','note');
+	for (var i in tabDivDiapo) {
+		var clef=tabDivDiapo[i]
+		if (tabDesDiapos[numDiapo][clef]!=undefined) {
+			var classe=clef
+			var id=clef+numDiapo
+			var contenu=tabDesDiapos[numDiapo][clef]
+			constructionDiv(classe,id,contenu,diapo)
+		}
+	}	
+}
+
+function constructionPresentation(){
 	
-function affichePresentation(){
 	nombreDeSlide=tabDesDiapos.length
+	constructionSommaire()
+	
 	for(var i=0;i< nombreDeSlide;i++){
 		var diapo=document.createElement('div')
 		diapo.setAttribute('class',tabDesDiapos[i].classe)
-		diapo.setAttribute('id','d'+i)
-		
-		if(tabDesDiapos[i].titre!=undefined){
-			var titre=document.createElement('div')
-			titre.setAttribute('class','titre')
-			titre.innerHTML =tabDesDiapos[i].titre
-			diapo.appendChild(titre)
-			}
-		
-		if(tabDesDiapos[i].chapitre!=undefined){
-			var chapitre=document.createElement('div')
-			chapitre.setAttribute('class','chapitre')
-			chapitre.innerHTML =tabDesDiapos[i].chapitre
-			diapo.appendChild(chapitre)
-			}
-		if(tabDesDiapos[i].corps!=undefined){
-			var corps=document.createElement('div')
-			corps.setAttribute('class','corps')
-			corps.innerHTML =tabDesDiapos[i].corps
-			diapo.appendChild(corps)
-			}
-		if(tabDesDiapos[i].pieds!=undefined){
-			var pieds=document.createElement('div')
-			pieds.setAttribute('class','pieds')
-			pieds.innerHTML =tabDesDiapos[i].pieds
-			diapo.appendChild(pieds)
-			}
-		if(tabDesDiapos[i].note!=undefined){
-			var note=document.createElement('div')
-			note.setAttribute('class','note')
-			note.innerHTML =tabDesDiapos[i].note
-			diapo.appendChild(note)
-			}
+		diapo.setAttribute('id','diapo'+i)
+		constructionDiapo(i,diapo)
 		document.body.appendChild(diapo) 
 		}
 	}
 
 function arcEnCiel(chaine){
-	tabchaine=chaine.split('')
+	var tabchaine=chaine.split('')
 	var arc=document.createElement('div')
 	arc.setAttribute('class','diapo')
 
@@ -163,8 +218,7 @@ function arcEnCiel(chaine){
 		var lettre=document.createElement('div')
 		lettre.setAttribute('class','lettre')
 		
-		if(tabchaine[i]!=' '){
-		text=document.createTextNode(tabchaine[i])}
+		if(tabchaine[i]!=' '){text=document.createTextNode(tabchaine[i])}
 		else{text=document.createTextNode(' ')}
 		
 		lettre.id='lettre'+(i)

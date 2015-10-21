@@ -17,17 +17,35 @@
 	tab.classe='pageDeGarde'
 	tab.corps='<h1>SHOUKAI</h1>\
 			<div class="cadreTitre">Une première présentation</div>\
-			\
 			<div class="cadreAuteur"><h3>Yves Mercadier</h3></div>'
 	tabDesDiapos.push(new initDiapo(tab));
 	
 	tab.classe='diapo'
-	tab.chapitre='test'
-	tab.titre='test'
+	tab.chapitre='testDiapo'
+	tab.titre='diapo1'
 	tab.corps='<center>test</center>'
 	tabDesDiapos.push(new initDiapo(tab));
 	
-	affichePresentation()
+	tab.classe='diapo'
+	tab.titre='diapo2'
+	tab.note='test note'
+	tab.corps='<center>test</center>'
+	tabDesDiapos.push(new initDiapo(tab));
+		
+	tab.classe='diapo'
+	tab.chapitre='testPieds'
+	tab.titre='diapo3'
+	tab.pieds='test pieds'
+	tab.corps='<center>test pieds</center>'
+	tabDesDiapos.push(new initDiapo(tab));
+	
+	tab.classe='diapo'
+	tab.chapitre='test'
+	tab.titre='diapo4'
+	tab.corps='<center>test pieds</center>'
+	tabDesDiapos.push(new initDiapo(tab));
+	
+	constructionPresentation()
 	</script>
  
 
